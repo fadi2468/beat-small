@@ -32,10 +32,10 @@ def main(args):
     model = plmodel_setup(checkpoint, args.eval_trim_beats, args.dbn).to(device)
     model.eval()
 
-    # --- Warm-up GPU (2-3 batches) ---
+   -
     warmup(model, dataloader, device, num_batches=2)
 
-    # --- Measure forward-pass time only ---
+   
     total_time, avg_batch_time = measure_model_time(model, dataloader, device, args.max_batches)
 
     print("\n==============================")
@@ -101,7 +101,7 @@ def measure_model_time(model, dataloader, device, max_batches=None):
         torch.cuda.synchronize()
         start = time.perf_counter()
 
-        # ✅ Measure only model forward pass (no metrics or postproc)
+       
         with torch.amp.autocast("cuda", dtype=torch.float16):
             _ = model.predict_step(batch, i)
 
